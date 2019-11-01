@@ -1,53 +1,71 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import Constants from 'expo-constants'
 import { getDecks } from "../util/storeApi";
 import { AppLoading } from "expo";
+import { connect } from 'react-redux'
+import { receiveDecks } from "../actions";
 
-export default class DeckList extends Component {
+class DeckList extends Component {
 
     state = {
         decks: null,
-        ready: false
+        ready: false,
+        updated: false
     }
 
     componentDidMount() {
         getDecks()
-        // .then((result) => JSON.stringify(result))
-            .then((result) => {
-                this.setState(() => ({
-                    decks: result,
+            .then((result) => this.props.dispatch(receiveDecks(result)))
+            .then(() => this.setState(() => ({
                     ready: true
                 }))
-
-            })
+            )
     }
 
-    render() {
-        const {decks, ready} = this.state
+    loadDecks = () => {
+        this.setState(() => ({
+            decks: null
+        }))
+    }
 
+
+
+
+    render() {
+
+        const {ready} = this.state
+        const {decks} = this.props
+        // console.log('decks ', decks)
         if (ready === false) {
             return (
                 <AppLoading/>
             )
         }
 
+        const deckArray = Object.keys(decks).map(title=> (decks[title]))
+
         return (
             <View style={styles.container}>
-
-                {Object.keys(decks).map(deckTitle => {
-                    const cards = decks[deckTitle].questions.length
-                    return (
-                        <View key={deckTitle} style={styles.deck}>
-                            <Text style={styles.title}>{deckTitle}</Text>
-                            <Text style={styles.text}>{cards} Cards</Text>
-                        </View>
-                    )
-                })}
-
+                <FlatList contentContainerStyle={{width: '100%'}}
+                    data={deckArray}
+                    renderItem={(deck) => {
+                        return <DeckSummary title={deck.item.title} cards={deck.item.questions.length}/>
+                    }}
+                    keyExtractor={item => item.title}
+                />
             </View>
         )
     }
+}
+
+function DeckSummary({ title, cards }) {
+    return (
+        <View key={title} style={styles.deck} >
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.text}>{cards} Cards</Text>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -58,9 +76,10 @@ const styles = StyleSheet.create({
         paddingTop: Constants.statusBarHeight,
         backgroundColor: '#ecf0f1',
         padding: 8,
+        width: '100%'
     },
     deck: {
-        width: '60%',
+        width: '100%',
         marginTop: 20,
         marginBottom:20,
         shadowRadius: 3,
@@ -83,7 +102,13 @@ const styles = StyleSheet.create({
     text: {
         textAlign: 'center'
     },
-    hline: {
-        width: '100%'
-    }
 })
+
+function mapStateToProp(state) {
+
+    return {
+        decks: state
+    }
+}
+
+export default connect(mapStateToProp)(DeckList)

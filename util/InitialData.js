@@ -1,5 +1,7 @@
 import { AsyncStorage } from 'react-native'
 
+export const FLASHCARD_DECKS_KEY = 'flashcard:decks'
+
 export function setDefaultDecks() {
     const decks = {
         React: {
@@ -25,7 +27,7 @@ export function setDefaultDecks() {
             ]
         }
     }
-    AsyncStorage.mergeItem('flashcard:decks', JSON.stringify(decks))
+    AsyncStorage.mergeItem(FLASHCARD_DECKS_KEY, JSON.stringify(decks))
 
     return decks
 }
