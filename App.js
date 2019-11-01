@@ -1,12 +1,12 @@
 import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants'
 import DeckList from "./components/DeckList";
 import { Ionicons } from '@expo/vector-icons';
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { purple, white } from './util/colors'
+import { darkGreen, lightGreen, lightPurp, purple, white } from './util/colors'
 import NewDeck from "./components/NewDeck";
 import Deck from './components/Deck'
 import { Provider } from 'react-redux'
@@ -16,11 +16,20 @@ import reducer from './reducers'
 export default function App() {
     return (
         <Provider store={createStore(reducer)}>
-
+            <FlashcardStatusBar backgroundColor={lightGreen}/>
             <MainNavigation/>
         </Provider>
     );
 }
+
+function FlashcardStatusBar({backgroundColor, ...props}) {
+    return (
+        <View style={{backgroundColor,  height: Constants.statusBarHeight}}>
+            <StatusBar translucent backgroundColor={backgroundColor} {...props}/>
+        </View>
+    )
+}
+
 const Tabs = createBottomTabNavigator({
         DeckList: {
             screen: DeckList,
@@ -44,10 +53,10 @@ const Tabs = createBottomTabNavigator({
             header: null
         },
         tabBarOptions: {
-            activeTintColor: Platform.OS === 'ios' ? white : purple,
+            activeTintColor: Platform.OS === 'ios' ? white : darkGreen,
             style: {
                 height: 56,
-                backgroundColor: Platform.OS === 'ios' ? purple : white,
+                backgroundColor: Platform.OS === 'ios' ? darkGreen : white,
                 shadowColor: 'rgba(0,0,0,0.24)',
                 shadowOffset: {
                     width: 0,
@@ -61,16 +70,21 @@ const Tabs = createBottomTabNavigator({
 )
 
 const TabsView = createAppContainer(Tabs)
+
 const MainNavigation = createAppContainer(createStackNavigator({
     Home: {
-        screen: TabsView
+        screen: TabsView,
+        navigationOptions: {
+            title: 'Decks',
+            headerBackTitle: 'To Decks',
+        }
     },
     Deck: {
         screen: Deck,
         navigationOptions: {
             headerTintColor: white,
             headerStyle: {
-                backgroundColor: purple
+                backgroundColor: darkGreen
             }
         }
     }

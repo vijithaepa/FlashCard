@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Constants from 'expo-constants'
 import { getDecks } from "../util/storeApi";
 import { AppLoading } from "expo";
@@ -23,8 +23,9 @@ class DeckList extends Component {
             )
     }
 
-    onPressDeck = () => {
-        this.props.navigation.navigate('Deck')
+    onPressDeck = (title) => {
+        console.log('Title ', title)
+        this.props.navigation.navigate('Deck', {title: title})
     }
 
     loadDecks = () => {
@@ -45,17 +46,14 @@ class DeckList extends Component {
             )
         }
 
-        const deckArray = Object.keys(decks).map(title => (decks[title]))
-
         return (
             <View style={styles.container}>
                 <FlatList contentContainerStyle={{width: '100%'}}
-                          data={deckArray}
+                          data={Object.keys(decks).map(title => (decks[title]))}
                           renderItem={(deck) => {
                               return <DeckSummary title={deck.item.title}
                                                   cards={deck.item.questions.length}
-                                                  onPress={this.onPressDeck}
-                              />
+                                                  onPress={()=> this.onPressDeck(deck.item.title)} />
                           }}
                           keyExtractor={item => item.title}
                 />
@@ -66,12 +64,13 @@ class DeckList extends Component {
 
 function DeckSummary({title, cards, onPress}) {
     return (
-        <View key={title} style={styles.deck}>
-            <TouchableOpacity onPress={onPress}>
-
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.text}>{cards} Cards</Text>
-            </TouchableOpacity>
+        <View key={title} style={styles.decks}>
+            <View style={styles.deck}>
+                <TouchableOpacity onPress={onPress}>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.text}>{cards} Cards</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -79,17 +78,20 @@ function DeckSummary({title, cards, onPress}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'stretch',
         justifyContent: 'center',
         paddingTop: Constants.statusBarHeight,
         backgroundColor: '#ecf0f1',
         padding: 8,
-        width: '100%'
+    },
+    decks: {
+        // width: 270
+        paddingLeft: 70,
+        paddingRight: 50
     },
     deck: {
-        width: '100%',
-        marginTop: 20,
-        marginBottom: 20,
+        width: '70%',
+        margin: 20,
         shadowRadius: 3,
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
