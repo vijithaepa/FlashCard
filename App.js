@@ -3,9 +3,12 @@ import { Platform, StyleSheet } from 'react-native';
 import Constants from 'expo-constants'
 import DeckList from "./components/DeckList";
 import { Ionicons } from '@expo/vector-icons';
-import { createAppContainer, createBottomTabNavigator } from 'react-navigation'
+import { createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { purple, white } from './util/colors'
 import NewDeck from "./components/NewDeck";
+import Deck from './components/Deck'
 import { Provider } from 'react-redux'
 import { createStore } from "redux";
 import reducer from './reducers'
@@ -13,7 +16,8 @@ import reducer from './reducers'
 export default function App() {
     return (
         <Provider store={createStore(reducer)}>
-            <TabsView/>
+
+            <MainNavigation/>
         </Provider>
     );
 }
@@ -57,6 +61,20 @@ const Tabs = createBottomTabNavigator({
 )
 
 const TabsView = createAppContainer(Tabs)
+const MainNavigation = createAppContainer(createStackNavigator({
+    Home: {
+        screen: TabsView
+    },
+    Deck: {
+        screen: Deck,
+        navigationOptions: {
+            headerTintColor: white,
+            headerStyle: {
+                backgroundColor: purple
+            }
+        }
+    }
+}))
 
 // const styles = StyleSheet.create({
 //   container: {

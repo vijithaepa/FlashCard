@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Constants from 'expo-constants'
 import { getDecks } from "../util/storeApi";
 import { AppLoading } from "expo";
@@ -23,13 +23,15 @@ class DeckList extends Component {
             )
     }
 
+    onPressDeck = () => {
+        this.props.navigation.navigate('Deck')
+    }
+
     loadDecks = () => {
         this.setState(() => ({
             decks: null
         }))
     }
-
-
 
 
     render() {
@@ -43,27 +45,33 @@ class DeckList extends Component {
             )
         }
 
-        const deckArray = Object.keys(decks).map(title=> (decks[title]))
+        const deckArray = Object.keys(decks).map(title => (decks[title]))
 
         return (
             <View style={styles.container}>
                 <FlatList contentContainerStyle={{width: '100%'}}
-                    data={deckArray}
-                    renderItem={(deck) => {
-                        return <DeckSummary title={deck.item.title} cards={deck.item.questions.length}/>
-                    }}
-                    keyExtractor={item => item.title}
+                          data={deckArray}
+                          renderItem={(deck) => {
+                              return <DeckSummary title={deck.item.title}
+                                                  cards={deck.item.questions.length}
+                                                  onPress={this.onPressDeck}
+                              />
+                          }}
+                          keyExtractor={item => item.title}
                 />
             </View>
         )
     }
 }
 
-function DeckSummary({ title, cards }) {
+function DeckSummary({title, cards, onPress}) {
     return (
-        <View key={title} style={styles.deck} >
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.text}>{cards} Cards</Text>
+        <View key={title} style={styles.deck}>
+            <TouchableOpacity onPress={onPress}>
+
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.text}>{cards} Cards</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -81,7 +89,7 @@ const styles = StyleSheet.create({
     deck: {
         width: '100%',
         marginTop: 20,
-        marginBottom:20,
+        marginBottom: 20,
         shadowRadius: 3,
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
