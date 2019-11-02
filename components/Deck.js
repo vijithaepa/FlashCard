@@ -12,8 +12,8 @@ class Deck extends Component {
         this.props.navigation.navigate('NewCard', {title: title})
     }
 
-    startQuiz = () => {
-
+    startQuiz = (title) => {
+        this.props.navigation.navigate('Quiz', {title: title})
     }
 
     removeDeck = (title) => {
@@ -24,8 +24,7 @@ class Deck extends Component {
         this.props.dispatch(deleteDeck(title))
 
         // Navigate to Decks
-        this.props.navigation.navigate('DeckList',
-            {updated: true})
+        this.props.navigation.navigate('DeckList')
 
     }
 
@@ -44,17 +43,17 @@ class Deck extends Component {
                     <Text style={styles.text}>{deck.questions.length} Cards</Text>
 
                     <View>
-                        <TouchableOpacity style={styles.btn} onPress={()=>this.addCard(deck.title)}>
-                            <Text style={styles.btnText}>Add Cart</Text>
+                        <TouchableOpacity style={styles.addCardBtn} onPress={()=>this.addCard(deck.title)}>
+                            <Text style={styles.addCardBtnText}>Add Card</Text>
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.btn} onPress={()=>this.startQuiz()}>
-                            <Text style={styles.btnText}>Start Quiz</Text>
+                        <TouchableOpacity style={styles.startQuizBtn} onPress={()=>this.startQuiz(deck.title)}>
+                            <Text style={styles.startQuizBtnText}>Start Quiz</Text>
                         </TouchableOpacity>
                     </View>
                 <View>
-                    <TouchableOpacity  onPress={()=>this.removeDeck(deck.title)}>
+                    <TouchableOpacity onPress={()=>this.removeDeck(deck.title)}>
                         <Text style={styles.removeBtn}>Delete Deck</Text>
                     </TouchableOpacity>
                 </View>
@@ -86,15 +85,31 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 160
     },
-    btn: {
-        backgroundColor: purple,
+    addCardBtn: {
+        backgroundColor: white,
+        padding: 10,
+        margin: 10,
+        borderRadius: 7,
+        width: 240,
+        height: 55,
+        borderColor:'#000',
+        borderWidth: 1
+    },
+    startQuizBtn: {
+        backgroundColor: '#000',
         padding: 10,
         margin: 10,
         borderRadius: 7,
         width: 240,
         height: 55,
     },
-    btnText: {
+    addCardBtnText: {
+        fontSize: 20,
+        color: '#000',
+        textAlign: 'center',
+        paddingTop: 5
+    },
+    startQuizBtnText: {
         fontSize: 20,
         color: white,
         textAlign: 'center',
@@ -104,10 +119,9 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: 20,
         fontWeight: '600',
-        padding: 10,
-        margin: 20,
-        width: 160,
-        height: 45,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop:20
     }
 })
 

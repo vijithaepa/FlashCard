@@ -13,6 +13,7 @@ import { Provider } from 'react-redux'
 import { createStore } from "redux";
 import reducer from './reducers'
 import NewCard from "./components/NewCard";
+import Quiz from './components/Quiz'
 
 export default function App() {
     return (
@@ -86,7 +87,7 @@ const MainNavigation = createAppContainer(createStackNavigator({
             headerStyle: {
                 backgroundColor: darkGreen
             },
-            headerBackTitle: 'Back To Card',
+            headerBackTitle: 'Back To Deck',
         }
     },
     NewCard: {
@@ -95,9 +96,19 @@ const MainNavigation = createAppContainer(createStackNavigator({
             headerTintColor: white,
             headerStyle: {
                 backgroundColor: darkGreen
+            },
+            title: 'Add Card'
+        }
+    },
+    Quiz: {
+        screen: Quiz,
+        navigationOptions: {
+            headerTintColor: white,
+            headerStyle: {
+                backgroundColor: darkGreen
             }
         }
-    }
+    },
 }))
 
 

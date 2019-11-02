@@ -9,9 +9,7 @@ import { receiveDecks } from "../actions";
 class DeckList extends Component {
 
     state = {
-        decks: null,
         ready: false,
-        updated: false
     }
 
     componentDidMount() {
@@ -27,11 +25,6 @@ class DeckList extends Component {
         this.props.navigation.navigate('Deck', {title: title})
     }
 
-    loadDecks = () => {
-        this.setState(() => ({
-            decks: null
-        }))
-    }
 
 
     render() {

@@ -34,8 +34,7 @@ class NewDeck extends Component {
     }
 
     gotoDecks = () => {
-        this.props.navigation.navigate('DeckList',
-            {updated: true})
+        this.props.navigation.navigate('DeckList')
     }
 
     render() {
