@@ -3,6 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
 import Constants from "expo-constants";
 import { purple, red, white } from "../util/colors";
+import { addDeckTitle, deleteDeck } from "../actions";
+import { removeDeck } from "../util/storeApi";
 
 class Deck extends Component {
 
@@ -14,12 +16,27 @@ class Deck extends Component {
 
     }
 
-    removeDeck = () => {
+    removeDeck = (title) => {
+        // Save to DB
+        removeDeck(title)
+
+        // Update Redux
+        this.props.dispatch(deleteDeck(title))
+
+        // Navigate to Decks
+        this.props.navigation.navigate('DeckList',
+            {updated: true})
 
     }
 
     render() {
         const {deck} = this.props
+
+        if(deck === undefined){
+            console.log('Details ', deck)
+            return <View></View>
+        }
+
         return (
             <View style={styles.container}>
 
@@ -37,7 +54,7 @@ class Deck extends Component {
                         </TouchableOpacity>
                     </View>
                 <View>
-                    <TouchableOpacity  onPress={()=>this.removeDeck()}>
+                    <TouchableOpacity  onPress={()=>this.removeDeck(deck.title)}>
                         <Text style={styles.removeBtn}>Delete Deck</Text>
                     </TouchableOpacity>
                 </View>

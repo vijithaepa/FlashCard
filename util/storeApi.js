@@ -41,7 +41,7 @@ export function saveDeckTitle(title) {
 
 export function addCardToDeck(title, {question, answer}) {
     AsyncStorage.getItem(FLASHCARD_DECKS_KEY)
-        .then(decks=> (JSON.parse(decks)))
+        .then(decks => (JSON.parse(decks)))
         .then((decks) => {
             Object.keys(decks).map(id => {
                 if (id === title) {
@@ -52,6 +52,18 @@ export function addCardToDeck(title, {question, answer}) {
                 }
             })
             return AsyncStorage.mergeItem(FLASHCARD_DECKS_KEY, JSON.stringify(decks))
+        })
+}
+
+export function removeDeck(title) {
+    AsyncStorage.getItem(FLASHCARD_DECKS_KEY)
+        // .then(decks => (JSON.parse(decks)))
+        .then(decks => {
+            const data = JSON.parse(decks)
+            data[title] = undefined
+            delete data[title]
+
+            AsyncStorage.setItem(FLASHCARD_DECKS_KEY, JSON.stringify(data))
         })
 }
 

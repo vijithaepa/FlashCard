@@ -33,16 +33,15 @@ function decks(state = {}, action) {
                 }
             }
         case REMOVE_DECK:
-            const newDecks = Object.keys(state)
+            const newDecks = {}
+            Object.keys(state)
                 .filter(key => key !== action.title)
-                .reduce((obj, key) => {
-                    obj[key] = raw[key];
-                    return obj;
-                }, {});
-            console.log('New Decks ', newDecks)
-            return {
-                newDecks
-            }
+                .map((key) => {
+                    Object.assign(newDecks, {[key]: state[key]})
+                    return newDecks;
+                });
+            return newDecks
+
     }
 }
 
