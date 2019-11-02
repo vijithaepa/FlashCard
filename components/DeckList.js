@@ -24,7 +24,6 @@ class DeckList extends Component {
     }
 
     onPressDeck = (title) => {
-        console.log('Title ', title)
         this.props.navigation.navigate('Deck', {title: title})
     }
 
@@ -39,7 +38,6 @@ class DeckList extends Component {
 
         const {ready} = this.state
         const {decks} = this.props
-        // console.log('decks ', decks)
         if (ready === false) {
             return (
                 <AppLoading/>

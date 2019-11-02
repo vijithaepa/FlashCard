@@ -12,6 +12,7 @@ import Deck from './components/Deck'
 import { Provider } from 'react-redux'
 import { createStore } from "redux";
 import reducer from './reducers'
+import NewCard from "./components/NewCard";
 
 export default function App() {
     return (
@@ -75,12 +76,21 @@ const MainNavigation = createAppContainer(createStackNavigator({
     Home: {
         screen: TabsView,
         navigationOptions: {
-            title: 'Decks',
-            headerBackTitle: 'To Decks',
+            headerBackTitle: 'Back To Decks',
         }
     },
     Deck: {
         screen: Deck,
+        navigationOptions: {
+            headerTintColor: white,
+            headerStyle: {
+                backgroundColor: darkGreen
+            },
+            headerBackTitle: 'Back To Card',
+        }
+    },
+    NewCard: {
+        screen: NewCard,
         navigationOptions: {
             headerTintColor: white,
             headerStyle: {
@@ -90,14 +100,7 @@ const MainNavigation = createAppContainer(createStackNavigator({
     }
 }))
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+
 
 const styles = StyleSheet.create({
     container: {

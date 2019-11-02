@@ -49,6 +49,7 @@ class NewDeck extends Component {
                     style={styles.textInput}
                     onChangeText={text => this.onChangeText(text)}
                     value={title}
+                    placeholder=' Title'
                 />
                 <TouchableOpacity
                     disabled={title.length < 1}
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
         marginLeft: 40,
         marginRight: 40,
         marginTop: 40,
+        marginBottom: 100
     },
     btnText: {
         color: white,
