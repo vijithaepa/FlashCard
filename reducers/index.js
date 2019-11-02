@@ -1,4 +1,4 @@
-import { ADD_DECK_TITLE, RECEIVE_DECKS, REMOVE_DECK } from "../actions";
+import { ADD_CARD, ADD_DECK_TITLE, RECEIVE_DECKS, REMOVE_DECK } from "../actions";
 
 function decks(state = {}, action) {
 
@@ -14,6 +14,22 @@ function decks(state = {}, action) {
                 [action.title]: {
                     title: action.title,
                     questions: []
+                }
+            }
+        case ADD_CARD:
+            const {question, answer} = action.card
+            const {title} = action
+            return {
+                ...state,
+                [title]: {
+                    ...state[title],
+                    questions: state[title].questions
+                        .concat(
+                            {
+                                question,
+                                answer
+                            }
+                        )
                 }
             }
         case REMOVE_DECK:

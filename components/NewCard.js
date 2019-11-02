@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Constants from "expo-constants";
 import { purple, white } from "../util/colors";
+import { addCardToDeck } from "../util/storeApi";
+import { addCard } from "../actions";
+import { connect } from 'react-redux'
 
 class NewCard extends Component {
 
@@ -12,11 +15,14 @@ class NewCard extends Component {
 
     onSubmit = () => {
         const {question, answer} = this.state
+        const {title} = this.props.navigation.state.params
 
         // Save to DB
+        addCardToDeck(title, {question, answer})
 
         // Update Redux
-
+        this.props.dispatch(addCard(title, {question, answer}))
+        this.props.navigation.navigate('Deck', {title: title})
         // Navigate to Card
 
         // Clean local notification
@@ -58,7 +64,7 @@ class NewCard extends Component {
                     onPress={this.onSubmit}>
                     <Text style={styles.btnText}>SUBMIT</Text>
                 </TouchableOpacity>
-                <View style={{ height: 260 }}/>
+                <View style={{height: 260}}/>
             </View>
         )
     }
@@ -112,4 +118,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default NewCard
+function mapStateToProps(state) {
+
+}
+export default connect()(NewCard)

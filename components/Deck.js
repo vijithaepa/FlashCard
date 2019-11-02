@@ -6,8 +6,8 @@ import { purple, red, white } from "../util/colors";
 
 class Deck extends Component {
 
-    addCard = () => {
-        this.props.navigation.navigate('NewCard', {title: 'title'})
+    addCard = (title) => {
+        this.props.navigation.navigate('NewCard', {title: title})
     }
 
     startQuiz = () => {
@@ -27,7 +27,7 @@ class Deck extends Component {
                     <Text style={styles.text}>{deck.questions.length} Cards</Text>
 
                     <View>
-                        <TouchableOpacity style={styles.btn} onPress={()=>this.addCard()}>
+                        <TouchableOpacity style={styles.btn} onPress={()=>this.addCard(deck.title)}>
                             <Text style={styles.btnText}>Add Cart</Text>
                         </TouchableOpacity>
                     </View>
