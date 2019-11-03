@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import Constants from "expo-constants";
 import { darkGreen, red, white } from "../util/colors";
 import { connect } from 'react-redux'
-
+import { clearLocalNotification, setLocalNotification } from "../util/helper";
 
 class Quiz extends Component {
 
@@ -27,6 +27,10 @@ class Quiz extends Component {
                 currentIndex: state.currentIndex + 1
             }
         })
+
+        // Clear notification to study
+        clearLocalNotification()
+            .then(setLocalNotification())
     }
 
     incorrectAnswer(question) {
@@ -125,6 +129,7 @@ const styles = StyleSheet.create({
         marginBottom: 35
     },
     toggleBtnText: {
+        textAlign: 'center',
         color: 'red',
         fontSize: 30,
         fontWeight: '800',

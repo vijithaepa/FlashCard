@@ -26,7 +26,6 @@ class DeckList extends Component {
     }
 
 
-
     render() {
 
         const {ready} = this.state
@@ -44,7 +43,7 @@ class DeckList extends Component {
                           renderItem={(deck) => {
                               return <DeckSummary title={deck.item.title}
                                                   cards={deck.item.questions.length}
-                                                  onPress={()=> this.onPressDeck(deck.item.title)} />
+                                                  onPress={() => this.onPressDeck(deck.item.title)}/>
                           }}
                           keyExtractor={item => item.title}
                 />

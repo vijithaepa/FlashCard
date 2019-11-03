@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
 import Constants from "expo-constants";
-import { purple, red, white } from "../util/colors";
-import { addDeckTitle, deleteDeck } from "../actions";
+import { red, white } from "../util/colors";
+import { deleteDeck } from "../actions";
 import { removeDeck } from "../util/storeApi";
 
 class Deck extends Component {
@@ -31,29 +31,28 @@ class Deck extends Component {
     render() {
         const {deck} = this.props
 
-        if(deck === undefined){
-            console.log('Details ', deck)
+        if (deck === undefined) {
             return <View></View>
         }
 
         return (
             <View style={styles.container}>
 
-                    <Text style={styles.title}>{deck.title}</Text>
-                    <Text style={styles.text}>{deck.questions.length} Cards</Text>
+                <Text style={styles.title}>{deck.title}</Text>
+                <Text style={styles.text}>{deck.questions.length} Cards</Text>
 
-                    <View>
-                        <TouchableOpacity style={styles.addCardBtn} onPress={()=>this.addCard(deck.title)}>
-                            <Text style={styles.addCardBtnText}>Add Card</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <TouchableOpacity style={styles.startQuizBtn} onPress={()=>this.startQuiz(deck.title)}>
-                            <Text style={styles.startQuizBtnText}>Start Quiz</Text>
-                        </TouchableOpacity>
-                    </View>
                 <View>
-                    <TouchableOpacity onPress={()=>this.removeDeck(deck.title)}>
+                    <TouchableOpacity style={styles.addCardBtn} onPress={() => this.addCard(deck.title)}>
+                        <Text style={styles.addCardBtnText}>Add Card</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity style={styles.startQuizBtn} onPress={() => this.startQuiz(deck.title)}>
+                        <Text style={styles.startQuizBtnText}>Start Quiz</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity onPress={() => this.removeDeck(deck.title)}>
                         <Text style={styles.removeBtn}>Delete Deck</Text>
                     </TouchableOpacity>
                 </View>
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         width: 240,
         height: 55,
-        borderColor:'#000',
+        borderColor: '#000',
         borderWidth: 1
     },
     startQuizBtn: {
@@ -115,13 +114,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingTop: 5
     },
-    removeBtn : {
+    removeBtn: {
         color: 'red',
         fontSize: 20,
         fontWeight: '600',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop:20
+        paddingTop: 20
     }
 })
 

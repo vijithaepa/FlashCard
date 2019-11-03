@@ -22,10 +22,9 @@ class NewCard extends Component {
 
         // Update Redux
         this.props.dispatch(addCard(title, {question, answer}))
-        this.props.navigation.navigate('Deck', {title: title})
-        // Navigate to Card
 
-        // Clean local notification
+        // Navigate to Card
+        this.props.navigation.navigate('Deck', {title: title})
 
     }
 
@@ -121,4 +120,5 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
 }
+
 export default connect()(NewCard)

@@ -57,7 +57,6 @@ export function addCardToDeck(title, {question, answer}) {
 
 export function removeDeck(title) {
     AsyncStorage.getItem(FLASHCARD_DECKS_KEY)
-        // .then(decks => (JSON.parse(decks)))
         .then(decks => {
             const data = JSON.parse(decks)
             data[title] = undefined

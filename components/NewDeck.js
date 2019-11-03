@@ -29,8 +29,6 @@ class NewDeck extends Component {
 
         // Navigate to Decks
         this.gotoDecks()
-
-        // Clean local notification
     }
 
     gotoDecks = () => {

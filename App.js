@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants'
 import DeckList from "./components/DeckList";
@@ -14,14 +14,23 @@ import { createStore } from "redux";
 import reducer from './reducers'
 import NewCard from "./components/NewCard";
 import Quiz from './components/Quiz'
+import { setLocalNotification } from "./util/helper";
 
-export default function App() {
-    return (
-        <Provider store={createStore(reducer)}>
-            <FlashcardStatusBar backgroundColor={lightGreen}/>
-            <MainNavigation/>
-        </Provider>
-    );
+export default class App extends Component{
+
+    componentDidMount() {
+        setLocalNotification()
+    }
+
+    render() {
+        return (
+            <Provider store={createStore(reducer)}>
+                <FlashcardStatusBar backgroundColor={lightGreen}/>
+                <MainNavigation/>
+            </Provider>
+        )
+    }
+
 }
 
 function FlashcardStatusBar({backgroundColor, ...props}) {
@@ -111,20 +120,3 @@ const MainNavigation = createAppContainer(createStackNavigator({
     },
 }))
 
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingTop: Constants.statusBarHeight,
-        backgroundColor: '#ecf0f1',
-        padding: 8,
-    },
-    paragraph: {
-        margin: 24,
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-});
