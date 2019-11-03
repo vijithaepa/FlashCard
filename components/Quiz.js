@@ -91,7 +91,7 @@ class Quiz extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.count}>Question {index + 1} of {noOfQuestions}</Text>
+                <Text style={styles.count}> {index + 1} of {noOfQuestions}</Text>
                 <ScrollView style={styles.scrollView}>
                     <Text
                         style={styles.text}>{this.state.isAnswer ? quiz.answer : quiz.question}</Text>
@@ -161,8 +161,9 @@ const styles = StyleSheet.create({
         height: 5000
     },
     count: {
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
+        width:'100%',
+        fontSize: 15,
+        fontWeight: '800',
     }
 })
 
