@@ -28,11 +28,11 @@ class NewDeck extends Component {
         this.props.dispatch(addDeckTitle(title))
 
         // Navigate to Decks
-        this.gotoDecks()
+        this.gotoDeckView(title)
     }
 
-    gotoDecks = () => {
-        this.props.navigation.navigate('DeckList')
+    gotoDeckView = (title) => {
+        this.props.navigation.navigate('Deck', {title: title})
     }
 
     render() {
@@ -52,7 +52,7 @@ class NewDeck extends Component {
                     disabled={title.length < 1}
                     style={[styles.iosSubmitBtn, {backgroundColor: title.length < 1 ? 'gray' : purple}]}
                     onPress={this.onSubmit}>
-                    <Text style={styles.btnText}>SUBMIT</Text>
+                    <Text style={styles.btnText}>Create Deck</Text>
                 </TouchableOpacity>
             </View>
         )

@@ -14,17 +14,18 @@ class Quiz extends Component {
         isAnswer: false
     }
 
-    toggleQuiz() {
+    toggleQuiz = () => {
         this.setState((state) => ({
             isAnswer: !state.isAnswer
         }))
     }
 
-    correctAnswer(question) {
+    correctAnswer = (question) =>{
         this.setState((state) => {
             return {
                 correctAnswers: state.correctAnswers.concat(question),
-                currentIndex: state.currentIndex + 1
+                currentIndex: state.currentIndex + 1,
+                isAnswer: false
             }
         })
 
@@ -33,13 +34,28 @@ class Quiz extends Component {
             .then(setLocalNotification())
     }
 
-    incorrectAnswer(question) {
+    incorrectAnswer = (question) => {
         this.setState((state) => {
             return {
                 incorrectAnswers: state.incorrectAnswers.concat(question),
-                currentIndex: state.currentIndex + 1
+                currentIndex: state.currentIndex + 1,
+                isAnswer: false
             }
         })
+    }
+
+    restartQuiz = () => {
+        this.setState(() =>{
+            return {
+                correctAnswers: [],
+                incorrectAnswers: [],
+                currentIndex: 0,
+                isAnswer: false
+            }
+        })
+    }
+    backToDeck = (title) => {
+        this.props.navigation.navigate('Deck', {title: title})
     }
 
     render() {
@@ -60,6 +76,13 @@ class Quiz extends Component {
                     <Text style={styles.text}>Congratulations! You have answered all the questions</Text>
                     <Text style={styles.text}>You are correct on {this.state.correctAnswers.length} out
                         of {noOfQuestions}</Text>
+
+                    <TouchableOpacity style={styles.correctBtn} onPress={() => this.restartQuiz()}>
+                        <Text style={styles.btnText}>Restart Quiz</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.incorrectBtn} onPress={() => this.backToDeck(deck.title)}>
+                        <Text style={styles.btnText}>Back to Dec</Text>
+                    </TouchableOpacity>
                 </View>
             )
         }
@@ -68,13 +91,13 @@ class Quiz extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.count}>{index + 1}/{noOfQuestions}</Text>
+                <Text style={styles.count}>Question {index + 1} of {noOfQuestions}</Text>
                 <ScrollView style={styles.scrollView}>
                     <Text
                         style={styles.text}>{this.state.isAnswer ? quiz.answer : quiz.question}</Text>
                 </ScrollView>
                 <TouchableOpacity style={styles.toggleBtn} onPress={() => this.toggleQuiz()}>
-                    <Text style={styles.toggleBtnText}>{this.state.isAnswer ? 'Question' : 'Answer'}</Text>
+                    <Text style={styles.toggleBtnText}>{this.state.isAnswer ? 'Show Question' : 'Show Answer'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.correctBtn} onPress={() => this.correctAnswer(quiz.question)}>
                     <Text style={styles.btnText}>Correct</Text>
